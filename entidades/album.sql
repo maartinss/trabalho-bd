@@ -10,8 +10,12 @@ CREATE TABLE album(
         PRIMARY KEY (mbid),
 --
     CONSTRAINT ck_album_tipo
-        CHECK((tipo = 'EP') OR (tipo ='LP') OR (tipo = 'single')),
+        CHECK(tipo IN('EP','LP','single')),
 --
     CONSTRAINT ck_album_ano_lancamento
         CHECK(ano_lancamento BETWEEN 0 AND 2025),
+--
+    CONSTRAINT ck_album_mbid
+        CHECK(REGEPX_LIKE(mbid, '^[0-9]+$')),
+--
 );

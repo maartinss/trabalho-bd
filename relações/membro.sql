@@ -9,5 +9,5 @@ CREATE TABLE membro(
         FOREIGN KEY(grupo) REFERENCES grupo ON DELETE CASCADE,
 --
     CONSTRAINT fk_membro_solista
-        FOREIGN KEY(solista) REFERENCES solista ON DELETE SET NULL,
+        FOREIGN KEY(solista) REFERENCES solista ON DELETE CASCADE,
 );

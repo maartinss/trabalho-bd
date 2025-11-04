@@ -9,4 +9,4 @@ CREATE TABLE utilizador(
 --
     CONSTRAINT ck_utilizador_idade_minima
     CHECK (data_de_nascimento <= ADD_MONTHS(CURRENT_DATE, -156)),
-)
+);

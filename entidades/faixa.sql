@@ -5,7 +5,7 @@ CREATE TABLE faixa (
     CONSTRAINT pk_faixa
         PRIMARY KEY(mbid, numero),
 --
-    CONSTRAINT fk_faixa
+    CONSTRAINT fk_faixa_mbid
         FOREIGN KEY(mbid) REFERENCES album ON DELETE CASCADE,
 --
     CONSTRAINT ck_faixa_numero

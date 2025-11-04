@@ -4,7 +4,7 @@ CREATE TABLE grupo(
     CONSTRAINT pk_grupo
         PRIMARY KEY(isni),
 --
-    CONSTRAINT fk_grupo
+    CONSTRAINT fk_grupo_isni
         FOREIGN KEY(isni) REFERENCES artista ON DELETE CASCADE,
 --        
 );

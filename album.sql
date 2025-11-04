@@ -2,7 +2,7 @@
 --
 CREATE TABLE album(
     mbid    VARCHAR(36),
-    titulo  VARCHAR(25) CONSTRAINT nn_album_titulo NOT NULL,
+    titulo  VARCHAR(36) CONSTRAINT nn_album_titulo NOT NULL,
     tipo    VARCHAR(5) CONSTRAINT nn_album_tipo NOT NULL,
     ano_lancamento  NUMBER(4) CONSTRAINT nn_album_ano_lancamento NOT NULL,
 --

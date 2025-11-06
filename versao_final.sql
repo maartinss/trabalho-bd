@@ -47,7 +47,7 @@ CREATE TABLE album(
 --  RIA-1 O código MBID de um álbum tem de ter 36 caracteres
 --
     CONSTRAINT ck_album_mbid
-        CHECK(REGEXP_LIKE(mbid, '^[0-9a-z]+$') AND LENGTH(mbid) = 36)
+        CHECK(REGEXP_LIKE(mbid, '^[0-9a-z-]+$') AND LENGTH(mbid) = 36)
 --
 );
 --
@@ -64,9 +64,6 @@ CREATE TABLE artista(
 --
     CONSTRAINT ck_artista_isni
         CHECK(REGEXP_LIKE(isni, '^[0-9]+$') AND (LENGTH(isni) = 16)),
---
-    CONSTRAINT ck_artista_nome
-        CHECK(REGEXP_LIKE(nome, '^[A-Za-z]+$')),
 --
     CONSTRAINT ck_artista_ano_inicio
         CHECK(ano_inicio BETWEEN 0 AND 2025)
@@ -102,8 +99,8 @@ CREATE TABLE grupo(
 --
 CREATE TABLE utilizador(
     username    VARCHAR(24),
-    email       VARCHAR(36) CONSTRAINT nn_utilizador_email NOT NULL, -- RIA-13 O endereço de email identifica univocamente o utilizador
-    palavra_passe   VARCHAR(12),
+    email       VARCHAR(50) CONSTRAINT nn_utilizador_email NOT NULL, -- RIA-13 O endereço de email identifica univocamente o utilizador
+    palavra_passe   VARCHAR(36),
     data_de_nascimento DATE,
 --
     CONSTRAINT pk_utilizador
@@ -207,6 +204,18 @@ CREATE TABLE refere(
 );
 --
 --
+CREATE TABLE membro(
+    solista,
+    grupo,
+--
+    CONSTRAINT fk_membro_solista
+        FOREIGN KEY(solista) REFERENCES solista,
+--
+    CONSTRAINT fk_membro_grupo
+        FOREIGN KEY(grupo) REFERENCES grupo
+);
+--
+--
 -- ALTER TABLE
 --
 --
@@ -236,5 +245,153 @@ ALTER TABLE versao ADD(
 --
 --
 -- INSERT INTO
+--
+--
+-- SUPORTE FÍSICO
+--
+INSERT INTO suporte_fisico(tipo)
+    VALUES('cassete');
+--
+INSERT INTO suporte_fisico(tipo)
+    VALUES('cd');
+--
+INSERT INTO suporte_fisico(tipo)
+    VALUES('vinil');
+--
+-- Artista
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000469889776', 'Drake', 2006);
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000098003605', 'The Cranberries', 1989);
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000116814390', 'Dolores O Riordan', 1990);
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000059280052', 'Noel Hogan', 1989);
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000129563286', 'Mike Hogan', 1989);
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000372875116', 'Fergal Lawler', 1989);
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000115372770', 'OutKast', '1992');
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000003233290', 'Andre 3000', '1991');
+--
+INSERT INTO artista(isni, nome, ano_inicio)
+    VALUES('0000000121322154', 'Big Boi', '1992');
+--
+-- SOLISTA
+--
+INSERT INTO solista(isni)
+    VALUES('0000000469889776');
+--
+INSERT INTO solista(isni)
+    VALUES('0000000116814390');
+--
+INSERT INTO solista(isni)
+    VALUES('0000000059280052');
+--
+INSERT INTO solista(isni)
+    VALUES('0000000129563286');
+--
+INSERT INTO solista(isni)
+    VALUES('0000000372875116');
+--
+INSERT INTO solista(isni)
+    VALUES('0000000003233290');
+--
+INSERT INTO solista(isni)
+    VALUES('0000000121322154');
+--
+-- GRUPO
+--
+INSERT INTO grupo(isni)
+    VALUES('0000000098003605');
+--
+INSERT INTO grupo(isni)
+    VALUES('0000000115372770');
+--
+-- ALBUM e INTERPRETADO
+--
+INSERT INTO album(mbid, titulo, tipo, ano_lancamento, artista_isni)
+    VALUES('1e268632-6b5a-4592-bd60-64be3276d104', 'Take Care Deluxe', 'LP', 2011, '0000000469889776');
+--
+INSERT INTO album(mbid, titulo, tipo, ano_lancamento)
+    VALUES('8052a9d4-3d20-4f66-a94b-cc9d8cbc437a', 'Donda Deluxe', 'LP', 2021);
+--
+--  UTILIZADOR
+--
+INSERT INTO utilizador(username, email, palavra_passe, data_de_nascimento)
+    VALUES('denis3tenis', 'denis@fcul.pt', 'denis_estudioso', '09-10-2006');
+--
+INSERT INTO utilizador(username, email, palavra_passe, data_de_nascimento)
+    VALUES('pepas', 'pepas@fcul.pt', 'pepas', '03-11-2005');
+--
+-- LISTA PERSONALIZADA 
+--
+INSERT INTO lista_personalizada(username, nome)
+    VALUES('denis3tenis', 'Drake Glazer');
+--
+INSERT INTO lista_personalizada(username, nome)
+    VALUES('pepas', 'Old Kanye');
+--
+-- EM
+--
+INSERT INTO em(mbid, suporte_fisico)
+    VALUES('1e268632-6b5a-4592-bd60-64be3276d104', 'vinil');
+--
+INSERT INTO em(mbid, suporte_fisico)
+    VALUES('8052a9d4-3d20-4f66-a94b-cc9d8cbc437a', 'cd');
+--
+-- VERSÃO e DE
+--
+INSERT INTO versao(ean_13, designacao, mbid_album, suporte_fisico)
+    VALUES('0000000000001', 'Especial Primeiras 100 unidades', '1e268632-6b5a-4592-bd60-64be3276d104', 'vinil');
+--
+INSERT INTO versao(ean_13, designacao, mbid_album, suporte_fisico)
+    VALUES('0000000000002', 'Original', '8052a9d4-3d20-4f66-a94b-cc9d8cbc437a', 'cd');
+--
+--  MEMBRO
+--
+INSERT INTO membro(solista, grupo)
+    VALUES('0000000116814390', '0000000098003605');
+--
+INSERT INTO membro(solista, grupo)
+    VALUES('0000000059280052', '0000000098003605');
+--
+INSERT INTO membro(solista, grupo)
+    VALUES('0000000129563286', '0000000098003605');
+--
+INSERT INTO membro(solista, grupo)
+    VALUES('0000000372875116', '0000000098003605');
+--
+INSERT INTO membro(solista, grupo)
+    VALUES('0000000003233290', '0000000115372770');
+--
+INSERT INTO membro(solista, grupo)
+    VALUES('0000000121322154', '0000000115372770');
+--
+-- REFERE
+--
+INSERT INTO refere(nome, username, mbid)
+    VALUES('Drake Glazer', 'denis3tenis', '1e268632-6b5a-4592-bd60-64be3276d104');
+--
+INSERT INTO refere(nome, username, mbid)
+    VALUES('Old Kanye', 'pepas', '8052a9d4-3d20-4f66-a94b-cc9d8cbc437a');
+--
+-- POSSUI
+--
+INSERT INTO possui(username, ean_13, data_adicao)
+    VALUES('pepas', '0000000000002', '03-05-2023');
+--
+INSERT INTO possui(username, ean_13, data_adicao)
+    VALUES('denis3tenis', '0000000000001', '23-09-2019');
 --
 --

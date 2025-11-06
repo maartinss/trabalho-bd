@@ -69,7 +69,7 @@ CREATE TABLE artista(
         CHECK(REGEXP_LIKE(nome, '^[A-Za-z]+$')),
 --
     CONSTRAINT ck_artista_ano_inicio
-        CHECK(ano_inicio BETWEEN0 AND 2025)
+        CHECK(ano_inicio BETWEEN 0 AND 2025)
 --
 );
 --
@@ -98,24 +98,19 @@ CREATE TABLE grupo(
 );
 --
 --
+-- Não foi possível verificar se a data de nascimento do utilizador é 13 ou mais anos anterior à data atual (RIA-15)
+--
 CREATE TABLE utilizador(
     username    VARCHAR(24),
     email       VARCHAR(36) CONSTRAINT nn_utilizador_email NOT NULL, -- RIA-13 O endereço de email identifica univocamente o utilizador
     palavra_passe   VARCHAR(12),
     data_de_nascimento DATE,
 --
-    CONSTRAINT pk_utilizador,
+    CONSTRAINT pk_utilizador
         PRIMARY KEY (username),
--- RIA 15  A data de nascimento de um utilizador tem de ser 13 ou mais anos anterior
--- à data atual, bastando fazer a verificação aquando de criação da sua conta
--- no sistema de informação.
---
-    CONSTRAINT ck_utilizador_idade_minima
-        CHECK (data_de_nascimento <= ADD_MONTHS(CURRENT_DATE, -156)),
--- RIA 14 O utilizador só pode ter letras e dígitos
 --
     CONSTRAINT ck_utilizador_username
-        CHECK(REGEXP_LIKE(isni, '^[0-9a-zA-Z]+$'))
+        CHECK(REGEXP_LIKE(username, '^[0-9a-zA-Z]+$'))
 --
 );
 --
@@ -124,7 +119,7 @@ CREATE TABLE lista_personalizada(
     username,
     nome VARCHAR(36),
 --
-    CONSTRAINT fk_lista_personalizada_username
+    CONSTRAINT fk_lista_username
         FOREIGN KEY(username) REFERENCES utilizador ON DELETE CASCADE,
 --
     CONSTRAINT pk_lista_personalizada
@@ -142,7 +137,7 @@ CREATE TABLE versao(
 --  RIA-12 O código EAN-13 da versão de um álbum tem de ter 13 dígitos e ser positivo
 --
     CONSTRAINT ck_versao_ean_13
-        CHECK(REGEXP_LIKE('^[0-9]+$') AND LENGTH(ean_13) = 13)
+        CHECK(REGEXP_LIKE(ean_13,'^[0-9]+$') AND LENGTH(ean_13) = 13)
 --
 );
 --
@@ -197,13 +192,14 @@ CREATE TABLE possui(
 --
 CREATE TABLE refere(
     nome,
+    username,
     mbid,
 --
     CONSTRAINT pk_refere
         PRIMARY KEY(nome, mbid),
 --
-    CONSTRAINT fk_refere_nome
-        FOREIGN KEY(nome) REFERENCES lista_personalizada ON DELETE CASCADE,
+    CONSTRAINT fk_refere_lista_personalizada
+        FOREIGN KEY(nome, username) REFERENCES lista_personalizada(nome, username) ON DELETE CASCADE,
 --
     CONSTRAINT fk_refere_mbid
         FOREIGN KEY(mbid) REFERENCES album ON DELETE CASCADE
@@ -214,7 +210,7 @@ CREATE TABLE refere(
 -- ALTER TABLE
 --
 --
-ALTER TABLE album(
+ALTER TABLE album ADD(
     artista_isni,
 --
     CONSTRAINT fk_album_artista
@@ -222,7 +218,7 @@ ALTER TABLE album(
 );
 --
 --
-ALTER TABLE utilizador(
+ALTER TABLE utilizador ADD(
     favorito,
 --
     CONSTRAINT fk_utilizador_favorito
@@ -230,7 +226,7 @@ ALTER TABLE utilizador(
 );
 --
 --
-ALTER TABLE versao (
+ALTER TABLE versao ADD(
     mbid_album,
     suporte_fisico,
 --

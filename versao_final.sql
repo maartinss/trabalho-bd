@@ -233,3 +233,8 @@ ALTER TABLE versao ADD(
     CONSTRAINT fk_versao_em
         FOREIGN KEY(mbid_album,suporte_fisico) REFERENCES em(mbid,suporte_fisico)
 );
+--
+--
+-- INSERT INTO
+--
+--

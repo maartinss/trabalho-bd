@@ -6,8 +6,8 @@
 -- Rodrigo Lourenço 64727 TP14
 -- Pedro Dias 63736 TP14
 --
--- RIA Suportada:
--- RIA Não suportada:
+-- RIA Suportada: 1, 2, 7, 11, 12, 13, 14
+-- RIA Não suportada: 8, 10, 15, 16, 17
 --
 --
 -- Comandos DROP TABLE
@@ -108,6 +108,7 @@ CREATE TABLE utilizador(
 --
     CONSTRAINT pk_utilizador
         PRIMARY KEY (username),
+-- RIA 14 O username de um utilizador só pode ter letras e dígitos
 --
     CONSTRAINT ck_utilizador_username
         CHECK(REGEXP_LIKE(username, '^[0-9a-zA-Z]+$'))
@@ -163,7 +164,7 @@ CREATE TABLE em(
         PRIMARY KEY(mbid, suporte_fisico),
 --
     CONSTRAINT fk_em_mbid
-        FOREIGN KEY(mbid) REFERENCES album ON DELETE CASCADE,
+        FOREIGN KEY(mbid) REFERENCES album,
 --
     CONSTRAINT fk_em_suporte_fisico
         FOREIGN KEY(suporte_fisico) REFERENCES suporte_fisico
@@ -182,10 +183,10 @@ CREATE TABLE possui(
         PRIMARY KEY(username,ean_13),
 --
     CONSTRAINT fk_possui_username
-        FOREIGN KEY(username) REFERENCES utilizador ON DELETE CASCADE,
+        FOREIGN KEY(username) REFERENCES utilizador,
 --
     CONSTRAINT fk_possui_ean_13
-        FOREIGN KEY(ean_13) REFERENCES versao ON DELETE CASCADE
+        FOREIGN KEY(ean_13) REFERENCES versao
 --
 );
 --
@@ -196,13 +197,13 @@ CREATE TABLE refere(
     mbid,
 --
     CONSTRAINT pk_refere
-        PRIMARY KEY(nome, mbid),
+        PRIMARY KEY(nome, username, mbid),
 --
     CONSTRAINT fk_refere_lista_personalizada
-        FOREIGN KEY(nome, username) REFERENCES lista_personalizada(nome, username) ON DELETE CASCADE,
+        FOREIGN KEY(nome, username) REFERENCES lista_personalizada(nome, username),
 --
     CONSTRAINT fk_refere_mbid
-        FOREIGN KEY(mbid) REFERENCES album ON DELETE CASCADE
+        FOREIGN KEY(mbid) REFERENCES album
 --
 );
 --
@@ -210,6 +211,9 @@ CREATE TABLE refere(
 CREATE TABLE membro(
     solista,
     grupo,
+--
+    CONSTRAINT pk_membro
+        PRIMARY KEY(solista, grupo),
 --
     CONSTRAINT fk_membro_solista
         FOREIGN KEY(solista) REFERENCES solista,
@@ -329,13 +333,13 @@ INSERT INTO album(mbid, titulo, tipo, ano_lancamento, artista_isni)
 INSERT INTO album(mbid, titulo, tipo, ano_lancamento)
     VALUES('8052a9d4-3d20-4f66-a94b-cc9d8cbc437a', 'Donda Deluxe', 'LP', 2021);
 --
---  UTILIZADOR
+--  UTILIZADOR e FAVORITO
 --
-INSERT INTO utilizador(username, email, palavra_passe, data_de_nascimento)
-    VALUES('denis3tenis', 'denis@fcul.pt', 'denis_estudioso', '09-10-2006');
+INSERT INTO utilizador(username, email, palavra_passe, data_de_nascimento, favorito)
+    VALUES('denis3tenis', 'denis@fcul.pt', 'denis_estudioso', '09-10-2006', '0000000469889776');
 --
-INSERT INTO utilizador(username, email, palavra_passe, data_de_nascimento)
-    VALUES('pepas', 'pepas@fcul.pt', 'pepas', '03-11-2005');
+INSERT INTO utilizador(username, email, palavra_passe, data_de_nascimento, favorito)
+    VALUES('pepas', 'pepas@fcul.pt', 'pepas', '03-11-2005', '0000000003233290');
 --
 -- LISTA PERSONALIZADA 
 --

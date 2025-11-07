@@ -6,6 +6,9 @@
 -- Rodrigo Lourenço 64727 TP14
 -- Pedro Dias 63736 TP14
 --
+-- RIA Suportada:
+-- RIA Não suportada:
+--
 --
 -- Comandos DROP TABLE
 --

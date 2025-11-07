@@ -34,7 +34,7 @@ DROP TABLE em CASCADE CONSTRAINTS;
 --
 CREATE TABLE album(
     mbid    VARCHAR(36),
-    titulo  VARCHAR(36) CONSTRAINT nn_album_titulo NOT NULL,
+    titulo  VARCHAR(50) CONSTRAINT nn_album_titulo NOT NULL,
     tipo    VARCHAR(5) CONSTRAINT nn_album_tipo NOT NULL,
     ano_lancamento  NUMBER(4) CONSTRAINT nn_album_ano_lancamento NOT NULL,
 --
@@ -58,7 +58,7 @@ CREATE TABLE album(
 --
 CREATE TABLE artista(
     isni CHAR(16),
-    nome VARCHAR(36) CONSTRAINT nn_artista_nome NOT NULL,
+    nome VARCHAR(50) CONSTRAINT nn_artista_nome NOT NULL,
     ano_inicio NUMBER(4) CONSTRAINT nn_artista_ano_inicio NOT NULL,
 --
     CONSTRAINT pk_artista 
@@ -131,7 +131,7 @@ CREATE TABLE lista_personalizada(
 --
 CREATE TABLE versao(
     ean_13 CHAR(13) ,
-    designacao VARCHAR(36) CONSTRAINT nn_versao_designacao NOT NULL,
+    designacao VARCHAR(50) CONSTRAINT nn_versao_designacao NOT NULL,
 --
     CONSTRAINT pk_versao 
         PRIMARY KEY(ean_13),

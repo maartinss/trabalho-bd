@@ -1,10 +1,10 @@
 -- SIBD 2025/2026
 -- 2ª Etapa
 -- Grupo 12
--- Rodrigo Martins 63745 TP14
--- Denis Dryagin 63749 TP14
--- Rodrigo Lourenço 64727 TP14
--- Pedro Dias 63736 TP14
+-- Rodrigo Martins 63745 TP14 Proporção de esforço: 25% Esteve responsável maioritariamente pela criação das tabelas, mas também contribuiu para as outras áreas do trabalho e contribuiu para uma melhor interpertação do diagrama e conheecimentos teóricos
+-- Denis Dryagin 63749 TP14 Proporção de esforço: 25% Contribuiu para a criação das tabelas, assim como para uma boa organização do trabalho e restrições de integridade
+-- Rodrigo Lourenço 64727 TP14 Proporção de esforço: 25% Contribuiu para a a criação e inserção nas tabelas e criação das mesmas, assim como ajudou nas restrições de integridade
+-- Pedro Dias 63736 TP14 Proporção de esforço: 25% Também esteve responsável pela criação e inserção nas tabelas, também pela verificação da integridade dos dados nelas colocados.
 --
 -- RIA Suportada: 1, 2, 7, 11, 12, 13, 14
 -- RIA Não suportada: 8, 10, 15, 16, 17
@@ -328,7 +328,7 @@ INSERT INTO grupo(isni)
 -- ALBUM e INTERPRETADO
 --
 INSERT INTO album(mbid, titulo, tipo, ano_lancamento, artista_isni)
-    VALUES('1e268632-6b5a-4592-bd60-64be3276d104', 'Take Care Deluxe', 'LP', 2011, '0000000469889776');
+    VALUES('6f0abe27-099d-4e30-864a-48159d8374af', 'Certified Lover Boy', 'LP', 2021, '0000000469889776');
 --
 INSERT INTO album(mbid, titulo, tipo, ano_lancamento)
     VALUES('8052a9d4-3d20-4f66-a94b-cc9d8cbc437a', 'Donda Deluxe', 'LP', 2021);
@@ -352,7 +352,7 @@ INSERT INTO lista_personalizada(username, nome)
 -- EM
 --
 INSERT INTO em(mbid, suporte_fisico)
-    VALUES('1e268632-6b5a-4592-bd60-64be3276d104', 'vinil');
+    VALUES('6f0abe27-099d-4e30-864a-48159d8374af', 'vinil');
 --
 INSERT INTO em(mbid, suporte_fisico)
     VALUES('8052a9d4-3d20-4f66-a94b-cc9d8cbc437a', 'cd');
@@ -360,7 +360,7 @@ INSERT INTO em(mbid, suporte_fisico)
 -- VERSÃO e DE
 --
 INSERT INTO versao(ean_13, designacao, mbid_album, suporte_fisico)
-    VALUES('0000000000001', 'Especial Primeiras 100 unidades', '1e268632-6b5a-4592-bd60-64be3276d104', 'vinil');
+    VALUES('0000000000001', 'Especial Primeiras 100 unidades', '6f0abe27-099d-4e30-864a-48159d8374af', 'vinil');
 --
 INSERT INTO versao(ean_13, designacao, mbid_album, suporte_fisico)
     VALUES('0000000000002', 'Original', '8052a9d4-3d20-4f66-a94b-cc9d8cbc437a', 'cd');
@@ -388,7 +388,7 @@ INSERT INTO membro(solista, grupo)
 -- REFERE
 --
 INSERT INTO refere(nome, username, mbid)
-    VALUES('Drake Glazer', 'denis3tenis', '1e268632-6b5a-4592-bd60-64be3276d104');
+    VALUES('Drake Glazer', 'denis3tenis', '6f0abe27-099d-4e30-864a-48159d8374af');
 --
 INSERT INTO refere(nome, username, mbid)
     VALUES('Old Kanye', 'pepas', '8052a9d4-3d20-4f66-a94b-cc9d8cbc437a');
